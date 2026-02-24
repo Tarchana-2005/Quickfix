@@ -39,3 +39,18 @@ This app can use GitHub Actions for CI. The following workflows are configured:
 ### License
 
 mit
+
+## A1 & A2 – Multi-Site & Configuration
+
+In this project, two sites were created on the same bench: `quickfix-dev.localhost` and `quickfix-prod.localhost`. This demonstrates Frappe’s multi-tenancy model, where multiple sites share the same application code but use separate databases, ensuring complete data isolation.
+
+The `common_site_config.json` file is used for shared bench-level configuration such as `db_host`, which applies to all sites.
+
+The `site_config.json` file is site-specific and stores values such as `db_name`, `db_password`, and environment-based settings like `developer_mode`.
+
+Running `bench start` launches four processes:
+- Web – Handles HTTP requests  
+- Worker – Executes background jobs  
+- Scheduler – Runs scheduled tasks  
+- SocketIO – Manages real-time events
+If the Worker process stops, the website will still load normally, but background tasks such as sending emails or scheduled jobs will not run until the Worker is restarted.
