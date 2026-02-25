@@ -46,9 +46,10 @@ In this project, two sites were created on the same bench: `quickfix-dev.localho
 
 The `common_site_config.json` file is used for shared bench-level configuration such as `db_host`, which applies to all sites.
 
-The `site_config.json` file is site-specific and stores values such as `db_name`, `db_password`, and environment-based settings like `developer_mode`.
+If a secret is placed in `common_site_config.json`, it becomes accessible to all sites in the bench. It breaks security 
 
-`hooks.py` stores app's configurations 
+
+The `site_config.json` file is site-specific and stores values such as `db_name`, `db_password`, and environment-based settings like `developer_mode`.
 
 Running `bench start` launches four processes:
 - Web – Handles HTTP requests  
