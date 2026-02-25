@@ -112,13 +112,13 @@
    "label": "Diagnosis Notes"
   },
   {
-   "depends_on": "eval:doc.diagnosis_notes",
+   "depends_on": "doc.diagnosis_notes",
    "fieldname": "estimated_cost",
    "fieldtype": "Currency",
    "label": "Estimated Cost"
   },
   {
-   "depends_on": "eval:diagnosis_notes",
+   "depends_on": "diagnosis_notes",
    "fieldname": "diagnosis_date",
    "fieldtype": "Date",
    "label": "Diagnosis Date"
@@ -190,7 +190,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-24 21:05:16.878862",
+ "modified": "2026-02-25 10:36:53.400374",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Job Card",

@@ -1,12 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "INV-.YYYY.-.#####",
+ "autoname": "naming_series:",
  "creation": "2026-02-24 20:58:34.335644",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "job_card",
+  "naming_series",
   "customer_name",
   "invoice_date",
   "labour__charge",
@@ -60,12 +61,18 @@
    "in_list_view": 1,
    "label": "Payment Status",
    "options": "Unpaid\nPaid"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Invoice Number",
+   "options": "INV-.YYYY.-.#####"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-24 22:11:02.207521",
+ "modified": "2026-02-25 12:24:43.136769",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Service Invoice",
