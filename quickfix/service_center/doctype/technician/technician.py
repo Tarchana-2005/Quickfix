@@ -31,7 +31,7 @@ class Technician(Document):
 			]
 		})
 
-		user.insert(ignore_permissions=True)
+		user.insert()
 		self.db_set("user", email)
 
 

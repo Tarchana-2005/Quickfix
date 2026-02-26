@@ -101,3 +101,10 @@ Marking a field as **Unique** creates a database-level constraint. The database 
 Using `frappe.db.exists()` inside the `validate()` method only checks for duplicates in Python before saving. It throws an error if a matching record is found, but it does not create a database constraint.
 
 Therefore, Using `frappe.db.exists()` only for additional business logic checks is best.
+
+---
+## What is the issues in using frappe.get_all in a whitelisted method that is exposed to guests or low-privilege users. Explain it in the context of permission_query_conditions
+
+Using frappe.get_all() in a whitelisted method is unsafe because it bypasses permission_query_conditions and role-based restrictions. So, guests or low-privilege users can access all records directly from DB.
+
+Therefore, frappe.get_list() should be used beacuse it checks permissions.
