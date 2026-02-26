@@ -17,7 +17,7 @@ app_license = "mit"
 # 		"logo": "/assets/quickfix/logo.png",
 # 		"title": "Quickfix",
 # 		"route": "/quickfix",
-# 		"has_permission": "quickfix.api.permission.has_app_permission"
+# 		"has_permission": "quickfix.api.permission.has_app_permission_permission": "quickfix.api.permission.has_app_permission"
 # 	}
 # ]
 
@@ -271,4 +271,8 @@ fixtures = [
 permission_query_conditions = {
     "Technician": "quickfix.permission.technician_permission",
     "Job Card": "quickfix.permission.job_card_permission"
+}
+
+has_permission = { 
+    "Service Invoice": "quickfix.permission.service_invoice_has_permission"
 }
