@@ -276,3 +276,8 @@ permission_query_conditions = {
 has_permission = { 
     "Service Invoice": "quickfix.permission.service_invoice_has_permission"
 }
+
+doctype_js = {
+    "Job Card": "public/js/job_card.js"
+}
+
