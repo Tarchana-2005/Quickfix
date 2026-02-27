@@ -46,18 +46,86 @@ class JobCard(Document):
 			frappe.throw("Job Card can only be submitted if Ready for Delivery")
 
 	def on_submit(self):
-		frappe.get_doc({
-			"doctype": "Service Invoice",
-			"job_card": self.name,
-			"customer_name": self.customer_name,
-			"labour_charge": self.labour_charge,
-			"parts_total": self.parts_total,
-			"total_amount": self.final_amount,
-			"payment_status": self.payment_status
-		}).insert()
+		for row in self.parts_used:
+			current_stock = frappe.db.get_value(
+				"Spare Part",
+				row.part,
+				"stock_qty"
+			)
 
+			new_stock = current_stock - row.quantity
+
+			frappe.db.set_value(
+				"Spare Part",
+				row.part,
+				"stock_qty",
+				new_stock
+			)
+
+		existing_invoice = frappe.db.exists("Service Invoice", {"job_card": self.name})
+
+		if not existing_invoice:
+			frappe.get_doc({
+				"doctype": "Service Invoice",
+				"job_card": self.name,
+				"customer_name": self.customer_name,
+				"labour_charge": self.labour_charge,
+				"parts_total": self.parts_total,
+				"total_amount": self.final_amount,
+				"payment_status": "Unpaid"
+			}).insert(ignore_permissions=True)
+
+		frappe.publish_realtime(
+			event="job_ready",
+			message={
+				"job_card": self.name,
+				"customer": self.customer_name
+			},
+			user = self.owner
+		)
 		
+		frappe.enqueue(
+    		"quickfix.utils.send_job_ready_email",
+    		queue="short",
+    		job_card=self.name
+		)
+
+	def on_cancel(self):
+		self.status = "Cancelled"
+
+		for row in self.parts_used:
+			current_stock = frappe.db.get_value(
+				"Spare Part",
+				row.part,
+				"stock_qty"
+			)
+
+			new_stock = current_stock + row.quantity
+
+			frappe.db.set_value(
+				"Spare Part",
+				row.part,
+				"stock_qty",
+				new_stock
+			)
 		
+			invoice_name = frappe.db.get_value(
+				"Service Invoice",
+				{"job_card": self.name},
+				"name"
+			)
+
+			if invoice_name:
+				invoice_doc = frappe.get_doc("Service Invoice", invoice_name)
+
+				if invoice_doc.docstatus == 1:
+					invoice_doc.cancel()
+
+	def on_trash(self):
+		if self.status not in ["Draft", "Cancelled"]:
+			frappe.throw(
+            	"Only Draft or Cancelled Job Cards can be deleted."
+        	)
 
 
 

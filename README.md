@@ -108,3 +108,9 @@ Therefore, Using `frappe.db.exists()` only for additional business logic checks 
 Using frappe.get_all() in a whitelisted method is unsafe because it bypasses permission_query_conditions and role-based restrictions. So, guests or low-privilege users can access all records directly from DB.
 
 Therefore, frappe.get_list() should be used beacuse it checks permissions.
+
+---
+## Call self.save() inside on_update and see to the issues of it and explain them in the same readme_internals. Correct the pattern and explain it.
+
+Calling `self.save()` inside `on_update()` causes infinite recursion because on_update() is already triggered during save lifecycle.
+The correct approach is to update fields in validate(), before_save() to avoid re-triggering the lifecycle.
