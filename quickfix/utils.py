@@ -21,3 +21,16 @@ def send_job_ready_email(job_card):
         QuickFix Service Centre
         """
     )
+
+    import frappe
+
+def rename_technician(old_name, new_name):
+    frappe.rename_doc(
+        "Technician",
+        old_name,
+        new_name,
+        merge=False
+    )
+
+    # merge=True is dangerous because it deletes the old record 
+    # and merges all links into existing one, which can lead to accidental data loss
