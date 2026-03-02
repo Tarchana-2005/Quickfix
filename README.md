@@ -114,3 +114,32 @@ Therefore, frappe.get_list() should be used beacuse it checks permissions.
 
 Calling `self.save()` inside `on_update()` causes infinite recursion because on_update() is already triggered during save lifecycle.
 The correct approach is to update fields in validate(), before_save() to avoid re-triggering the lifecycle.
+
+---
+## If you override_doctype_class and forget to update super() - what breaks?
+
+Calling super() is mandatory.
+Even though CustomJobCard inherits from JobCard (which inherits from 
+Document in Frappe core), if we override a method and don't call super(), 
+the execution will not reach the parent implementation. So any core updates 
+inside the parent method will not run.
+
+---
+## Why is doc_events safer than override_doctype_class for most use cases?
+
+`doc_events` is safer than `override_doctype_calsss` because, it adds logic without replacing the core controller, so it will not block frappe core updates.
+
+In contrast, `override_doctype_class` replaces the entire controller class. If not handled carefully (especially if `super()` is not called), it can block core behavior and increase the risk of upgrade friction.
+
+---
+## Which of the below pattern would you use and and explain why.
+## doc = frappe.get_doc("QuickFix Settings", "QuickFix Settings")
+## threshold = doc.low_stock_threshold
+## threshold = frappe.db.get_value("QuickFix Settings", None,"low_stock_threshold")
+
+`frappe.get_doc()` loads the full document as a Python object and fetches all fields.
+It allows calling document methods and runs validations when doc.save() is used.
+It is heavier and should be used when full document behavior is required.
+`frappe.db.get_value()` fetches only specific field directly from the database and 
+does not trigger validations or lifecycle hooks.
+Since we only need one field (low_stock_threshold), `frappe.db.get_value("QuickFix Settings", "Quickfix Settings","low_stock_threshold")` is more efficient and appropriate.

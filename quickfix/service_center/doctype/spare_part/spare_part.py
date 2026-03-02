@@ -14,3 +14,12 @@ class SparePart(Document):
 		if self.selling_price is not None and self.unit_cost is not None:
 			if self.selling_price <= self.unit_cost:
 				frappe.throw("Selling price must be greater than Unit cost")
+
+	def on_update(self):
+		threshold = frappe.db.get_value("Quick Settings", "Quick Settings", "low_stock_threshold")
+		
+		if threshold and self.stock_qty is not None:
+			if self.stock_qty < threshold:
+				frappe.msgprint(
+                    f"Stock for {self.part_name} is below threshold ({threshold})."
+                )
