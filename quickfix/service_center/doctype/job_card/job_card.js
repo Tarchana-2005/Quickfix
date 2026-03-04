@@ -18,3 +18,15 @@ frappe.ui.form.on("Job Card", {
     })
     }
 })
+
+// frappe.listview_settings["Job Card"] = {
+//     add_fields: ["final_amount", "priority"],
+//     get_indicator(doc){
+//         // if (doc.status === "In Repair") {
+//         //     return ["In Repair", "orange", "status,=,In Repair"];
+//         // }
+//         if (doc.status === "Ready for Delivery") {
+//             return ["Delivered", "green", "status,=,Delivered"];
+//         }
+//     }
+// }

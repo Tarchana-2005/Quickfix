@@ -281,6 +281,50 @@ doctype_js = {
     "Job Card": "public/js/job_card.js"
 }
 
+doctype_list_js = {
+    "Job Card": "public/js/job_card.js"
+}
+
 override_doctype_class = {
     "Job Card": "quickfix.overrides.custom_job_card.CustomJobCard"
 }
+
+doc_events = {
+    "*": {
+        "on_update": "quickfix.audit.log_change",
+        "on_submit": "quickfix.audit.log_change",
+        "on_cancel": "quickfix.audit.log_change"
+    }
+}
+
+after_install = "quickfix.install.after_install"
+before_uninstall = "quickfix.uninstall.before_uninstall" 
+
+extend_bootinfo = "quickfix.boot.extend_bootinfo"
+
+app_include_js = "/assets/quickfix/js/quickfix.bundle.js"
+
+on_session_creation = "quickfix.audit.log_login"
+
+on_logout = "quickfix.audit.log_logout"
+
+jinja = {
+    "methods": [
+        "quickfix.utils.get_shop_name"
+    ],
+    "filters": [
+        "quickfix.utils.format_job_id"
+    ]
+}
+
+website_route_rules = [
+    {"from_route": "/track-job", "to_route": "track-job"}
+]
+
+portal_menu_items = [
+    {
+        "title": "Track My Job",
+        "route": "/track-job",
+        "role": "Guest"
+    }
+]

@@ -34,3 +34,11 @@ def rename_technician(old_name, new_name):
 
     # merge=True is dangerous because it deletes the old record 
     # and merges all links into existing one, which can lead to accidental data loss
+
+def get_shop_name():
+    settings = frappe.get_single("QuickFix Settings")
+    return settings.shop_name
+
+def format_job_id(value):
+    return f"JOB#{value}"
+
