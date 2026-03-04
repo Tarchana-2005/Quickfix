@@ -143,3 +143,67 @@ It is heavier and should be used when full document behavior is required.
 `frappe.db.get_value()` fetches only specific field directly from the database and 
 does not trigger validations or lifecycle hooks.
 Since we only need one field (low_stock_threshold), `frappe.db.get_value("QuickFix Settings", "Quickfix Settings","low_stock_threshold")` is more efficient and appropriate.
+
+---
+## Multiple handler conflict:
+
+## Register TWO validate handlers on Job Card - one in your main controller and one in doc_events. What order do they run? 
+
+Execution Order:
+1. The controller's validate() method runs first.
+2. After it completes successfully, the doc_events validate handler execute.
+-> Controller logic always has priority
+
+## What happens if both raise a frappe.ValidationError?
+
+If the controller raises a `ValidationError`, execution stops immediately and the `doc_events` handler will not run.
+
+If the controller passes but the doc_events handler raises a ValidationError, the document will not be saved.
+
+## Demonstrate: what happens when you register "*" AND a specific DocType handler for the same event? Do both run?
+
+Both the handlers run.
+Execution Order:
+1. Controller validate()
+2. Specific DocType validate handler
+3. Wildcard validate handler
+
+If any handler raises a `ValidationError`, execution stops immediately and the document will not be saved.
+
+---
+
+## Assest hooks
+1. `app_include_js`
+app_include_js loads JavaScript files globally in the Desk interface for logged-in users. It is used for navbar modifications.
+
+2. `web_include_js`
+web_include_js loads JavaScript files only on website and portal pages, including guest-access pages. It is used for frontend website behavior such as form validation, portal interactivity.
+
+The key difference is that `app_include_js` applies to the backend Desk environment, while `web_include_js` applies to the public-facing website environment.
+
+3. `doctype_js`
+doctype_js is used to load a JavaScript file only when a specific DocType form is opened. It is used for DocType Form view customization.
+
+3. `doctype_list_js`
+doctype_list_js is used to load JavaScript only for a specific DocType’s List View.
+
+4. `doctype_tree_js`
+doctype_tree_js is used to customize the Tree View interface of hierarchical DocTypes.
+
+5. `Build cache-busting` 
+## Explain what bench build --app quickfix does and why assets need cache-busting after JS changes
+
+bench build --app quickfix compiles and bundles frontend assets such as JavaScript and CSS files from the app’s public directory into the /assets directory used by the browser. The build process also implements cache busting by generating versioned asset files, ensuring browsers do not use outdated cached files. This is necessary after modifying JS or CSS files so that users receive the updated assets.
+
+## Jinja Hooks
+## Explain: what is the difference between a Jinja context available in Print Formats vs one available in Web Pages? Are they the same?
+
+### Difference Between Jinja Context in Print Formats vs Website Pages
+
+Both Print Formats and Website Pages use Jinja templates, but their context is different.
+
+In **Print Formats**, Frappe automatically provides the document as `doc`. This allows the template to directly access fields like `doc.customer_name` or `doc.final_amount`.
+
+In **Website Pages**, the context is **manually defined by the developer** using the `get_context()` function, where variables are added and then used in the template.
+
+So, Print Formats get an **automatic document context**, while Website Pages use a **custom context defined by the developer**.
