@@ -30,3 +30,22 @@ frappe.ui.form.on("Job Card", {
 //         }
 //     }
 // }
+
+frappe.ui.form.on("Job Card", {
+
+    onload: function(frm){
+
+        frappe.call({
+            method: "frappe.client.get_count",
+            args: {
+                doctype: "Job Card"
+            },
+            callback: function(r){
+                console.log("Job Card Count:", r.message);
+                frappe.msgprint("Job Card Count:"+ (r.message))
+            }
+        });
+
+    }
+
+})

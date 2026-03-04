@@ -1,0 +1,12 @@
+[
+ {
+  "default_labour_charge": 500.0,
+  "docstatus": 0,
+  "doctype": "QuickFix Settings",
+  "low_stock_alert": 1,
+  "manager_email": "tarchana.tech@gmail.com",
+  "modified": "2026-03-03 13:27:28.589024",
+  "name": "QuickFix Settings",
+  "shop_name": "QuickFix"
+ }
+]

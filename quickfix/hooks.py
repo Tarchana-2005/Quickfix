@@ -265,7 +265,13 @@ fixtures = [
         "filters": [
             ["parent", "in", ["Device Type", "Technician", "Spare Part", "Job Card", "Service Invoice"]]
         ]
-    }
+    },
+
+    "Custom Field",
+    "Property Setter",
+    "Workspace",
+    "QuickFix Settings"
+
 ]
 
 permission_query_conditions = {
@@ -328,3 +334,7 @@ portal_menu_items = [
         "role": "Guest"
     }
 ]
+
+override_whitelisted_methods = {
+ "frappe.client.get_count": "quickfix.api.custom_get_count"
+}
