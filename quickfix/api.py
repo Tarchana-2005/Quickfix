@@ -1,4 +1,6 @@
 import frappe
+from frappe.utils import now
+from frappe.client import get_count
 
 @frappe.whitelist()
 def share_job_card(job_card_name, user_email):
@@ -40,3 +42,19 @@ def get_job_cards_safe():
             jc.pop("customer_email", None)
 
     return job_cards
+
+@frappe.whitelist()
+def custom_get_count(doctype, filters=None, debug=False, cache=False):
+ 
+    frappe.get_doc({
+        "doctype":"Audit Log",
+        "doctype_name":doctype,
+        "document_name": "Count Request",
+        "action":"count_queried",
+        "user":frappe.session.user,
+        "timestamp": now()
+        }).insert(ignore_permissions=True)
+    frappe.db.commit()
+    
+    return get_count(doctype, filters, debug, cache)
+    

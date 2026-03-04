@@ -3,7 +3,7 @@ import frappe
 def after_install():
     create_default_device_types()
     create_default_quickfix_settings()
-
+    quickfix_property_setter()
     frappe.msgprint("Quickfix installed successfully with default setup")
 
 def create_default_device_types():
@@ -25,5 +25,23 @@ def create_default_quickfix_settings():
             "default_labour_charge": 500,
             "low_stock_alert": 1
         }).insert()
+
+def quickfix_property_setter():
+
+    if not frappe.db.exists(
+        "Property Setter",
+        {"doc_type": "Job Card", "field_name": "remarks", "property": "bold"}
+    ):
+    
+        frappe.make_property_setter({
+            "doctype": "Property Setter",
+            "doc_type": "Job Card",
+            "field_name": "remarks",
+            "property": "bold",
+            "value": "1",
+            "property_type": "Check"
+        })
+
+        frappe.db.commit()
 
     

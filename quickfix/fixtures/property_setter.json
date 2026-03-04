@@ -1,0 +1,18 @@
+[
+ {
+  "default_value": null,
+  "doc_type": "Job Card",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocType",
+  "field_name": null,
+  "is_system_generated": 0,
+  "modified": "2026-03-04 14:50:50.361027",
+  "module": null,
+  "name": "Job Card-main-field_order",
+  "property": "field_order",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "[\"section_break_5qep\", \"amended_from\", \"customer_name\", \"customer_phone\", \"customer_email\", \"device_type\", \"device_brand\", \"device_model\", \"imei_or_serial\", \"problem_description\", \"assignment_and_diagnosis_section\", \"assigned_technician\", \"diagnosis_notes\", \"estimated_cost\", \"diagnosis_date\", \"priority\", \"parts_used\", \"financials_and_delivery_section\", \"parts_total\", \"labour_charge\", \"final_amount\", \"payment_status\", \"delivery_date\", \"remarks\", \"status\", \"technician_notes\"]"
+ }
+]

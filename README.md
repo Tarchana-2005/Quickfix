@@ -207,3 +207,27 @@ In **Print Formats**, Frappe automatically provides the document as `doc`. This 
 In **Website Pages**, the context is **manually defined by the developer** using the `get_context()` function, where variables are added and then used in the template.
 
 So, Print Formats get an **automatic document context**, while Website Pages use a **custom context defined by the developer**.
+
+---
+
+## what happens if your Custom Field has the same fieldname as a field added by a future Frappe update?
+
+**Fieldname Collision Risk**
+
+When creating Custom Fields in Frappe, we should use unique fieldnames. If our app creates a field with a certain name and a future Frappe update introduces a field with the same name, a conflict can occur.
+
+For example, if our app adds a field called "device_serial" in Job Card and Frappe later adds a field with the same name, migrations may fail because two fields cannot share the same fieldname.
+
+To avoid this, it is good practice to prefix custom fields with the app name, such as "qf_device_serial".
+
+---
+## Explain patching order: if Patch 1 creates a Custom Field and Patch 2 reads it, why must they be separate entries in patches.txt and never merged?
+
+**Patch Ordering**
+
+In Frappe, patches run in the sequential listed in patches.txt. If Patch 1 creates a Custom Field and Patch 2 tries to read or use that field, Patch 1 must run first.
+
+If both changes are merged into a single patch or executed in the wrong order, Patch 2 may run before the field is created, which can cause errors like “Field not found”.
+
+Keeping them as separate entries in patches.txt ensures that patches run step-by-step in the correct order and migrations remain stable.
+
