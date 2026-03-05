@@ -57,4 +57,15 @@ def custom_get_count(doctype, filters=None, debug=False, cache=False):
     frappe.db.commit()
     
     return get_count(doctype, filters, debug, cache)
+
+@frappe.whitelist()
+def transfer_job(job_card, new_technician):
+
+    doc = frappe.get_doc("Job Card", job_card)
+
+    doc.assigned_technician = new_technician
+
+    doc.save()
+
+    return "success"
     
