@@ -231,3 +231,21 @@ If both changes are merged into a single patch or executed in the wrong order, P
 
 Keeping them as separate entries in patches.txt ensures that patches run step-by-step in the correct order and migrations remain stable.
 
+---
+## Making a frappe.call inside the validate client event (before_save handler) - explain why this does not work
+
+`frappe.call` is asynchronous. However, client events like validate and before_save are synchronous, and Frappe does not wait for asynchronous responses during the save process. Because of this, the form may finish saving before the frappe.call response arrives, making the result ineffective.
+
+For validations, it is better to use methods like `frappe.db.get_value` or `frm.set_query`.
+
+---
+## What to use: onload or refresh for async data fetches
+
+onload  → use for one-time async setup 
+refresh → use for UI updates that depend on current doc state
+
+Both fire AFTER form is ready — so async calls work safely here.
+frappe.call inside refresh is fine because user is just viewing,
+not in the middle of a save operation.
+
+---

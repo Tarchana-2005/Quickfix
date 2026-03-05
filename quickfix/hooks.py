@@ -248,29 +248,53 @@ app_license = "mit"
 # ignore_translatable_strings_from = []
 
 fixtures = [
+
     {
         "doctype": "Device Type",
         "filters": [
             ["name", "in", ["Smartphone", "Laptop", "Tablet"]]
         ]
     },
+
     {
         "doctype": "Role",
         "filters": [
             ["name", "in", ["QF Service Staff", "QF Technician", "QF Manager"]]
         ]
     },
+
     {
         "doctype": "DocPerm",
         "filters": [
+            ["role", "in", ["QF Service Staff", "QF Technician", "QF Manager"]],
             ["parent", "in", ["Device Type", "Technician", "Spare Part", "Job Card", "Service Invoice"]]
         ]
     },
 
-    "Custom Field",
-    "Property Setter",
-    "Workspace",
-    "QuickFix Settings"
+    {
+        "doctype": "Workspace",
+        "filters": [
+            ["name", "=", "QuickFix"]
+        ]
+    },
+
+    {
+        "doctype": "QuickFix Settings"
+    },
+
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            ["dt", "in", ["Technician", "Spare Part", "Job Card", "Service Invoice"]]
+        ]
+    },
+
+    {
+        "doctype": "Property Setter",
+        "filters": [
+            ["doc_type", "in", ["Technician", "Spare Part", "Job Card", "Service Invoice"]]
+        ]
+    }
 
 ]
 
@@ -337,4 +361,8 @@ portal_menu_items = [
 
 override_whitelisted_methods = {
  "frappe.client.get_count": "quickfix.api.custom_get_count"
+}
+
+doctype_list_js = {
+    "Job Card": "public/js/job_card_list.js"
 }

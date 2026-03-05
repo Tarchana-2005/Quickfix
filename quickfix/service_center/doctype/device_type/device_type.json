@@ -34,7 +34,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-24 14:25:02.601170",
+ "modified": "2026-03-05 12:43:31.321466",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Device Type",
@@ -51,6 +51,21 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "QF Service Staff"
+  },
+  {
+   "read": 1,
+   "role": "QF Technician"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "QF Manager",
    "write": 1
   }
  ],
