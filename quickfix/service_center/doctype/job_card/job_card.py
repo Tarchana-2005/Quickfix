@@ -15,6 +15,18 @@ class JobCard(Document):
 		self.validate_customer_phone()
 		self.technician_required()
 		self.calculate_parts_used()
+		self.tech_spec_mismatch_validation()
+
+	def tech_spec_mismatch_validation(self):
+		if self.assigned_technician and self.device_type:
+			specialization = frappe.db.get_value(
+				"Technician",
+				self.assigned_technician,
+				"specialization"
+			)
+
+		if specialization != self.device_type:
+			frappe.msgprint("Technician specialization does not match the device type", indicator = "orange")
 
 	def validate_customer_phone(self):
 		if self.customer_phone and len(self.customer_phone) != 10:
