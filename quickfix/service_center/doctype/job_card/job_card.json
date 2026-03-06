@@ -58,7 +58,8 @@
   {
    "fieldname": "customer_phone",
    "fieldtype": "Data",
-   "label": "Customer Phone"
+   "label": "Customer Phone",
+   "permlevel": 1
   },
   {
    "fieldname": "customer_email",
@@ -191,7 +192,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-06 12:14:16.634253",
+ "modified": "2026-03-06 15:35:37.759536",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Job Card",
