@@ -127,6 +127,7 @@
    "default": "Normal",
    "fieldname": "priority",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Priority",
    "options": "Normal\nHigh\nUrgent"
   },
@@ -150,6 +151,7 @@
   {
    "fieldname": "final_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Final Amount",
    "read_only": 1
   },
@@ -179,10 +181,8 @@
    "options": "Part Usage Entry"
   },
   {
-   "allow_on_submit": 1,
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_list_view": 1,
    "label": "Status",
    "options": "Draft\nPending Diagnosis\nAwaiting Customer Approval\nIn Repair\nReady for Delivery\nDelivered\nCancelled"
   }
@@ -191,7 +191,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-05 13:17:12.386211",
+ "modified": "2026-03-06 12:14:16.634253",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Job Card",
