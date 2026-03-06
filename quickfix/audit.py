@@ -12,7 +12,7 @@ def log_change(doc, method):
         "action": method,
         "user": frappe.session.user,
         "timestamp": now()
-    }).insert()
+    }).insert(ignore_permissions=True)
 
 def log_login(login_manager):
     frappe.get_doc({
@@ -22,7 +22,7 @@ def log_login(login_manager):
         "action": "Login",
         "user": frappe.session.user,
         "timestamp": now()
-    }).insert()
+    }).insert(ignore_permissions=True)
 
 def log_logout(login_manager):
     frappe.get_doc({
@@ -32,4 +32,4 @@ def log_logout(login_manager):
         "action": "Logout",
         "user": frappe.session.user,
         "timestamp": now()
-    }).insert()
+    }).insert(ignore_permissions=True)

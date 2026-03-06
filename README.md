@@ -277,3 +277,29 @@ Indicates whether the record can act as a parent (group node) or is a leaf node.
 These fields enable Frappe to correctly structure and render the hierarchical tree.
 
 ---
+
+## Client Script vs Shipped JS
+
+**Client Script**
+
+Client Script is stored in the database and can be created directly through the UI. It is useful for quick customizations without requiring code deployment. However, it is not version controlled and may vary across environments, which makes it risky for long-term production use.
+
+**Shipped JS**
+
+Shipped JS is stored in the application codebase and tracked in version control. It ensures consistent behaviour across all environments and is preferred for production development.
+
+---
+## when would a consultant use Client Script DocType vs an app developer use shipped JS?
+
+Consultants often use Client Scripts for quick customizations, while developers typically use shipped JS for maintainable and deployable application logic.
+
+---
+**Security Pitfall: Hiding Fields with JavaScript**
+
+In this customization, the field `customer_phone` is hidden for non-manager users using JavaScript. However, hiding a field in the UI does not provide real security.
+
+The entire document is still loaded in the browser when the form opens. A user can access the hidden value using the browser console: `cur_frm.doc.customer_phone`
+
+Therefore, hiding `customer_phone` using JavaScript does not secure the data because the entire document is already loaded in the browser. A user can access it using `cur_frm.doc.customer_phone` from the console. Real security must be enforced on the server using `field-level permissions` (Perm Level).
+
+---
