@@ -249,3 +249,31 @@ frappe.call inside refresh is fine because user is just viewing,
 not in the middle of a save operation.
 
 ---
+## What is Tree DocType?
+
+A `Tree DocType` is used to represent hierarchical (parent–child) data structures. It allows records to be organized in a tree format where one record can have multiple child records.
+
+---
+## What is doctype_tree_js used for and what extra fields does a tree DocType require (parent_field, is_group)?
+
+**doctype_tree_js**
+
+`doctype_tree_js` is a **Frappe hook** used to attach a custom JavaScript file to the **tree view of a Tree DocType**. It allows developers to control and customize the behavior of the tree interface, such as node expansion, adding child nodes, and other UI interactions specific to hierarchical data.
+
+**Required Fields for Tree DocType**
+
+A Tree DocType requires some additional fields to maintain the hierarchy:
+
+- parent_ (parent_field)
+Stores the reference to the parent node in the hierarchy.
+
+- is_group
+Indicates whether the record can act as a parent (group node) or is a leaf node.
+
+1 → Can contain children
+
+0 → Cannot contain children
+
+These fields enable Frappe to correctly structure and render the hierarchical tree.
+
+---
