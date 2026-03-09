@@ -1,6 +1,5 @@
 import frappe
 
-
 def execute(filters=None):
     columns = get_columns()
     data = get_data(filters)
@@ -52,7 +51,6 @@ def get_columns():
         }
     ]
 
-    # Dynamic device columns
     device_types = frappe.get_all("Device Type", fields=["name"])
 
     for dt in device_types:
@@ -68,6 +66,13 @@ def get_columns():
 
 def get_data(filters):
 
+    conditions = {
+        "creation": ["between", [filters.get("from_date"), filters.get("to_date")]]
+    }
+
+    if filters.get("technician"):
+        conditions["assigned_technician"] = filters.get("technician")
+
     jobs = frappe.get_list(
         "Job Card",
         fields=[
@@ -78,9 +83,7 @@ def get_data(filters):
             "final_amount",
             "device_type"
         ],
-        filters={
-            "creation": ["between", [filters.get("from_date"), filters.get("to_date")]]
-        },
+        filters=conditions,
         limit_page_length=0
     )
 
@@ -105,20 +108,17 @@ def get_data(filters):
                 "revenue": 0
             }
 
-            # initialize device counters
             for dt in device_types:
                 field = dt.name.lower().replace(" ", "_")
                 technician_map[tech][field] = 0
 
         technician_map[tech]["total_jobs"] += 1
 
-        # device type count
         if job.device_type:
             field = job.device_type.lower().replace(" ", "_")
             if field in technician_map[tech]:
                 technician_map[tech][field] += 1
 
-        # completed jobs
         if job.status == "Delivered":
             technician_map[tech]["completed"] += 1
 
@@ -149,7 +149,6 @@ def get_data(filters):
             "completion_rate": completion_rate
         }
 
-        # add device counts
         for dt in device_types:
             field = dt.name.lower().replace(" ", "_")
             row[field] = tech[field]
