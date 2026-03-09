@@ -68,4 +68,19 @@ def transfer_job(job_card, new_technician):
     doc.save()
 
     return "success"
+
+@frappe.whitelist()
+def generate_technician_performance_report(filters=None):
+    """
+    Trigger prepared report generation in background
+    """
+
+    frappe.enqueue(
+        method="frappe.desk.query_report.run",
+        queue="long",
+        report_name="Technician Performance Report",
+        filters=filters or {}
+    )
+
+    return "Prepared report generation started"
     
