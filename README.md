@@ -303,3 +303,15 @@ The entire document is still loaded in the browser when the form opens. A user c
 Therefore, hiding `customer_phone` using JavaScript does not secure the data because the entire document is already loaded in the browser. A user can access it using `cur_frm.doc.customer_phone` from the console. Real security must be enforced on the server using `field-level permissions` (Perm Level).
 
 ---
+## explain when you would use a Prepared Report vs a real-time Script Report. What are the staleness tradeoffs?
+
+**Prepared Report vs Script Report**
+
+A `Script Report` runs its queries every time a user opens the report, so the data is always up-to-date. This is suitable for small or fast reports.
+
+A `Prepared Report` is used for heavy reports that take longer to generate.
+The report is generated once in the background by a worker and the result is cached in the Prepared Report table. Users then view the stored result instead of running the report again.
+
+**Staleness Tradeoff**
+
+Since prepared reports use cached results, the data may become stale. If the underlying data changes after the report is generated, users will still see the old cached data until the report is generated again.
