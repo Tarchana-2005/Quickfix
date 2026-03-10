@@ -1,0 +1,21 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "chart": "Job Status Chart",
+   "width": "Half"
+  }
+ ],
+ "creation": "2026-03-09 18:49:33.371041",
+ "dashboard_name": "Job Card Status Chart",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2026-03-10 10:42:58.835603",
+ "modified_by": "Administrator",
+ "module": "Service Center",
+ "name": "Job Card Status Chart",
+ "owner": "Administrator"
+}
