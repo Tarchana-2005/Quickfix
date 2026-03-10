@@ -45,6 +45,7 @@ class JobCard(Document):
 
 		self.parts_total = parts_total
 		self.final_amount = parts_total + (self.labour_charge or 0)
+		self.amount = self.final_amount
 
 	def before_submit(self):
 		if  self.parts_used:

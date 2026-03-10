@@ -1,0 +1,28 @@
+{
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2026-03-09 16:08:07.942431",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": null,
+ "modified": "2026-03-09 16:16:25.902934",
+ "modified_by": "Administrator",
+ "module": "Service Center",
+ "name": "Technician Performance (Current Month)",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Job Card",
+ "reference_report": "Technician Performance Report",
+ "report_name": "Technician Performance (Current Month)",
+ "report_type": "Report Builder",
+ "roles": [
+  {}
+ ],
+ "timeout": 0
+}

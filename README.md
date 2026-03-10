@@ -315,3 +315,17 @@ The report is generated once in the background by a worker and the result is cac
 **Staleness Tradeoff**
 
 Since prepared reports use cached results, the data may become stale. If the underlying data changes after the report is generated, users will still see the old cached data until the report is generated again.
+
+## when is Report Builder appropriate? When must you use Script Report? Describe a scenario where using Report Builder in production would be a mistake.
+
+**Report Builder vs Script Report**
+
+`Report Builder` is appropriate for simple reports where data can be displayed directly from a single DocType using field selection and filters, without complex logic. For example, the Customer History report showing Job Cards by customer_name.
+
+`Script Reports` must be used when reports require calculations, aggregations, joins across multiple DocTypes, or custom logic. For example, the Technician Performance report calculates metrics like total jobs, revenue, and completion rate.
+
+**Scenario where using Report Builder in production would be a mistake**
+
+Using Report Builder in production would be a mistake for complex analytics such as technician performance dashboards, because it cannot handle custom calculations or business logic required for those reports.
+
+---
