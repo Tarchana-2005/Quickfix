@@ -83,4 +83,3 @@ def generate_technician_performance_report(filters=None):
     )
 
     return "Prepared report generation started"
-    

@@ -103,6 +103,13 @@ class JobCard(Document):
     		job_card=self.name
 		)
 
+		frappe.enqueue(
+			"quickfix.utils.generate_monthly_revenue_report",
+			year  = frappe.utils.now_datetime().year,
+			queue = "long",
+			timeout = 600
+		)
+
 	def on_cancel(self):
 		self.status = "Cancelled"
 
@@ -139,6 +146,8 @@ class JobCard(Document):
 			frappe.throw(
             	"Only Draft or Cancelled Job Cards can be deleted."
         	)
-
+			
+	def before_print(self, print_settings=None):
+		self.print_summary = f"{self.customer_name} - {self.device_brand} {self.device_model}"
 
 
