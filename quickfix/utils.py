@@ -22,7 +22,28 @@ def send_job_ready_email(job_card):
         """
     )
 
-    import frappe
+def generate_monthly_revenue_report(year):
+    """
+    Long running background job that generates revenue report
+    """
+
+    months = range(1, 13)
+
+    for i, month in enumerate(months, 1):
+
+        total = frappe.db.sql("""
+            SELECT SUM(final_amount)
+            FROM `tabJob Card`
+            WHERE YEAR(creation)=%s AND MONTH(creation)=%s
+        """, (year, month))[0][0]
+
+        frappe.publish_progress(
+            percent=round(i / 12 * 100),
+            title="Generating Revenue Report",
+            description=f"Processing month {month}"
+        )
+
+    frappe.logger().info("Monthly revenue report generated")
 
 def rename_technician(old_name, new_name):
     frappe.rename_doc(

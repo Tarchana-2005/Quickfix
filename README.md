@@ -329,3 +329,37 @@ Since prepared reports use cached results, the data may become stale. If the und
 Using Report Builder in production would be a mistake for complex analytics such as technician performance dashboards, because it cannot handle custom calculations or business logic required for those reports.
 
 ---
+## Explain in README_internals.md: how does Frappe determine which language to use when printing?
+
+Frappe decides the print language based on the user’s selected language in their profile. When a document is printed, Frappe checks this language and applies the corresponding translations.
+
+In print formats, text wrapped with `{{ _("text") }}` is automatically translated. If a translation is not available, Frappe uses the default system language (usually English).
+
+---
+## Putting a frappe.get_all() call inside the Jinja template directly
+## Pre-compute in before_print() and attach to self, then reference in template as doc.precomputed_field.
+
+**Avoid Database Calls in Jinja Templates**
+
+Directly calling `frappe.get_all()` inside a Jinja print template is not recommended because it can slow down printing and mix logic with the template.
+
+Instead, the data should be pre-computed in the `before_print()` method in the Python code. The result can then be attached to the document (for example doc.precomputed_field) and accessed in the Jinja template. This keeps the template clean and improves performance.
+
+---
+## Explain the difference between "raw printing" (sending ESC/POS commands to a thermal printer) and Frappe's HTML-PDF rendering via WeasyPrint
+
+**Raw Printing vs HTML-PDF Rendering in Frappe**
+
+`Raw Printing` sends direct ESC/POS commands to a thermal printer. The printer interprets these commands to print text, alignment, barcodes, or QR codes. It is fast and commonly used for receipt or thermal printers.
+
+`HTML-PDF Rendering` in Frappe uses WeasyPrint to convert HTML and CSS into a PDF file. This works like a web page being rendered as a PDF, which is useful for structured documents such as invoices and reports.
+
+## List 3 CSS properties that work in a browser but fail in WeasyPrint
+
+- position: fixed
+- flexbox (display: flex)
+- box-shadow
+
+These limitations occur because WeasyPrint does not fully support all browser CSS features.
+
+---
