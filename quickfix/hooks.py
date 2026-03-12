@@ -366,3 +366,15 @@ override_whitelisted_methods = {
 doctype_list_js = {
     "Job Card": "public/js/job_card_list.js"
 }
+
+scheduler_events = {
+    "daily": [
+        "quickfix.utils.check_low_stock"
+    ],
+    "cron": {
+        # 1st of every month at 2:00am
+        "0 2 1 * *": [
+            "quickfix.utils.generate_monthly_revenue_report"
+        ]
+    }
+}
