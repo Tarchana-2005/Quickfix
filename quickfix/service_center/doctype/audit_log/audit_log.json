@@ -9,7 +9,8 @@
   "document_name",
   "action",
   "user",
-  "timestamp"
+  "timestamp",
+  "date"
  ],
  "fields": [
   {
@@ -37,12 +38,17 @@
    "fieldname": "timestamp",
    "fieldtype": "Datetime",
    "label": "Timestamp"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-02 21:17:53.858644",
+ "modified": "2026-03-11 11:22:59.409093",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Audit Log",

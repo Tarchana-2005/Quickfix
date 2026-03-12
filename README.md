@@ -363,3 +363,51 @@ Instead, the data should be pre-computed in the `before_print()` method in the P
 These limitations occur because WeasyPrint does not fully support all browser CSS features.
 
 ---
+## explain the 3 queue names (default, long, short) and when to use each
+
+**Background Job Queues in Frappe**
+
+Frappe uses background workers to run tasks asynchronously using Redis Queue. Jobs are placed into different queues depending on how heavy or time-consuming they are.
+
+**short queue**
+This queue is used for very quick tasks that should run immediately and finish within a few seconds. It is typically used for small operations like sending notification emails or alerts.
+
+**default queue**
+This is the general-purpose queue for normal background tasks. If no queue is specified when using `frappe.enqueue()`, the job automatically goes to the default queue.
+
+**long queue**
+This queue is used for heavy or long-running tasks that may take several minutes to complete, such as generating large reports or processing bulk data.
+
+Using separate queues helps ensure that small and urgent tasks do not get delayed by heavy background jobs.
+
+---
+## How do you disable the scheduler for a specific site? Why would you do this on a dev site?
+
+### Command to disable
+    `bench --site quickfix-dev.localhost set-config pause_scheduler 1`
+
+This adds pause_scheduler: 1 to the site's site_config.json. Only affects that specific site, other sites are not affected.
+
+### Why disable on dev site?
+Prevents scheduled jobs from interfering with manual testing, avoids fake emails going to real users, and keeps logs clean.
+
+## Explain: what happens to scheduled jobs that were queued while the worker was down - do they run when the worker comes back up?
+
+It depends on whether the job was QUEUED or just SCHEDULED.
+
+QUEUED jobs (already in Redis queue when worker went down)
+- They run when worker comes back up
+- Redis holds them safely until worker restarts
+
+SCHEDULED jobs (not yet queued when worker went down)
+- No they won't run when worker comes back. They are simply missed
+- Scheduler only enqueues at the exact scheduled time, If worker was down at that time, job was never queued. It will run at next scheduled time only.
+
+---
+## Explain: why would you NOT add a search index to every field? What is the performance cost of over-indexing?
+
+Adding a search index helps speed up queries, but indexing every field is not recommended. Each index takes extra storage space and increases the time required for database operations like **insert, update, and delete** because the index must also be updated.
+
+Over-indexing can slow down write operations and increase database maintenance costs. Therefore, indexes should only be added to fields that are **frequently used in searches, filters, or joins**.
+
+---
