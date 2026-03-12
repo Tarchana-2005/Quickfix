@@ -411,3 +411,63 @@ Adding a search index helps speed up queries, but indexing every field is not re
 Over-indexing can slow down write operations and increase database maintenance costs. Therefore, indexes should only be added to fields that are **frequently used in searches, filters, or joins**.
 
 ---
+## L1 - Task A - Resource API
+
+### GET /api/resource/Job Card
+Request: GET http://quickfix-dev.localhost:8000/api/resource/Job Card with session cookie auth.
+Response: 200 OK — returns a list of Job Card names like JC-2026-00037, JC-2026-00038, JC-2026-00039.
+
+### GET /api/resource/Job Card/JC-2026-00038
+Request: GET http://quickfix-dev.localhost:8000/api/resource/Job Card/JC-2026-00038 with session cookie auth.
+Response: 200 OK — returns full Job Card document including customer_name, device_type, parts_used child table, final_amount, and status.
+
+### POST /api/resource/Spare Part
+Request: POST http://quickfix-dev.localhost:8000/api/resource/Spare Part with body {"part_name":"Mother Board","part_code":"MB_001","unit_cost":1000,"selling_price":1500}.
+Response: 200 OK — returns the created Spare Part document with auto-generated name MB-001-PART-2026-0004 and all fields populated.
+
+### PUT /api/resource/Spare Part/TESTAPI002-0001
+Request: PUT http://quickfix-dev.localhost:8000/api/resource/Spare Part/MB-001-PART-2026-0004 with body {"selling_price":1600}.
+Response: 200 OK — returns the updated document with selling_price changed from 1500 to 1600 and modified timestamp updated.
+
+### DELETE /api/resource/Spare Part/TESTAPI002-0001
+Request: DELETE http://quickfix-dev.localhost:8000/api/resource/Spare Part/MB-001-PART-2026-0004 with session cookie auth.
+Response: 200 OK — returns {"data":"ok"} confirming the record was permanently deleted from the database.
+
+---
+## what is the difference between session cookie auth and token auth?
+
+**Session Cookie Auth vs Token Auth**
+
+`Session Cookie Authentication` uses a session created when a user logs in. The server stores the session, and the browser automatically sends a session cookie with each request. This method is commonly used for browser-based applications because cookies are handled automatically by the browser.
+
+`Token Authentication` uses a unique token (such as an API key or JWT) that is sent with each request, usually in the request headers. The server verifies the token instead of relying on a stored session. This method is commonly used for server-to-server communication or APIs.
+
+---
+## Which is appropriate for browser use and which for server-to-server?
+
+**Browser vs Server-to-Server Authentication**
+
+`Session Cookie Authentication` is best for **browser-based applications**. After a user logs in, the browser stores a session cookie and automatically sends it with every request.
+
+`Token Authentication` is best for **server-to-server communication or APIs**. The client sends a token (like an API key or JWT) in the request headers, and the server verifies it for authentication.
+
+---
+
+## What are the real risks of allow_guest=True endpoints? List 3 specific attack vectors.
+
+**Risks of allow_guest=True Endpoints**
+
+Using allow_guest=True allows anyone to access the API without logging in. If not handled carefully, this can create security risks.
+
+Some common attack vectors include:
+
+- **Data exposure**: Attackers may access sensitive information if the endpoint returns data without proper validation.
+
+- **Spam or abuse**: Open endpoints can be used to send repeated requests, causing spam or overloading the system.
+
+- **Unauthorized actions**: If the endpoint performs actions (like creating or updating data), attackers could misuse it to modify or insert unwanted data.
+
+For these reasons, allow_guest=True should only be used when absolutely necessary and with proper validation and `rate limiting`.
+
+---
+

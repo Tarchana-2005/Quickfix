@@ -71,10 +71,6 @@ def transfer_job(job_card, new_technician):
 
 @frappe.whitelist()
 def generate_technician_performance_report(filters=None):
-    """
-    Trigger prepared report generation in background
-    """
-
     frappe.enqueue(
         method="frappe.desk.query_report.run",
         queue="long",
@@ -83,3 +79,45 @@ def generate_technician_performance_report(filters=None):
     )
 
     return "Prepared report generation started"
+
+@frappe.whitelist()
+def get_job_summary():
+    job_card_name = frappe.form_dict.get("job_card_name")
+
+    if not job_card_name:
+        frappe.response.http_status_code = 400
+        return {"error": "job_card_name is required"}
+
+    if not frappe.db.exists("Job Card", job_card_name):
+        frappe.response.http_status_code = 404
+        return {"error": "Not found"}
+
+    doc = frappe.get_doc("Job Card", job_card_name)
+
+    return {
+        "name": doc.name,
+        "status": doc.status,
+        "device_type": doc.device_type,
+        "device_brand": doc.device_brand,
+        "device_model": doc.device_model,
+        "assigned_technician": doc.assigned_technician,
+        "priority": doc.priority,
+        "final_amount": float(doc.final_amount or 0),
+        "parts_total": float(doc.parts_total or 0),
+        "diagnosis_date": doc.diagnosis_date,  
+        "payment_status": doc.payment_status,
+    }
+
+@frappe.whitelist(allow_guest=True)
+def get_job_by_phone():
+    ip = frappe.local.request_ip
+    cache_key = f"rate_limit:{ip}"
+    count = frappe.cache.get_value(cache_key) or 0
+
+    if int(count) >= 10:
+        frappe.response.http_status_code = 429
+        return {"error": "Too many requests. Wait a minute."}
+
+    frappe.cache.set_value(cache_key, int(count) + 1, expires_in_sec=60)
+    
+    return {"message": "Request allowed", "call_count": int(count) + 1}
