@@ -121,3 +121,81 @@ def get_job_by_phone():
     frappe.cache.set_value(cache_key, int(count) + 1, expires_in_sec=60)
     
     return {"message": "Request allowed", "call_count": int(count) + 1}
+
+def send_webhook(job_card_name):
+    import requests, json
+    settings = frappe.get_single("QuickFix Settings")
+    if not settings.webhook_url:
+        return
+    doc = frappe.get_doc("Job Card", job_card_name)
+
+    payload = {"event":"job_submitted","job_card":doc.name,"amount":doc.final_amount}
+    try:
+        r = requests.post(settings.webhook_url, json=payload, timeout=5)
+        r.raise_for_status()
+    except Exception as e:
+        frappe.log_error(f"Webhook failed: {e}", "Webhook Error")
+
+@frappe.whitelist(allow_guest=True)
+def payment_webhook():
+    import hmac
+    import hashlib
+    import json
+
+    payload = frappe.request.data
+
+    secret = frappe.conf.get("payment_webhook_secret", "")
+    signature = frappe.get_request_header("X-Signature")
+    expected = hmac.new(
+        secret.encode(),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+
+    if not hmac.compare_digest(expected, signature or ""):
+        frappe.throw("Invalid signature", frappe.AuthenticationError)
+
+    data = json.loads(payload)
+
+    if frappe.db.exists("Audit Log", {
+        "action": "payment_received",
+        "document_name": data.get("ref")
+    }):
+        return {
+            "status": "duplicate",
+            "message": "Already processed"
+        }
+
+    job_card_name = data.get("job_card")
+    if job_card_name and frappe.db.exists("Job Card", job_card_name):
+        frappe.db.set_value(
+            "Job Card",
+            job_card_name,
+            "payment_status",
+            "Paid"
+        )
+
+    invoice_name = frappe.db.get_value(
+        "Service Invoice",
+        {"job_card": job_card_name},
+        "name"
+    )
+    if invoice_name:
+        frappe.db.set_value(
+            "Service Invoice",
+            invoice_name,
+            "payment_status",
+            "Paid"
+        )
+
+    frappe.get_doc({
+        "doctype": "Audit Log",
+        "doctype_name": "Job Card",
+        "document_name": data.get("ref"),
+        "action": "payment_received",
+        "user": "Administrator",
+        "timestamp": frappe.utils.now()
+    }).insert(ignore_permissions=True)
+
+    frappe.db.commit()
+    return {"status": "ok"}
