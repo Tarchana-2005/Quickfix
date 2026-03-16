@@ -24,7 +24,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Technician Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "employee_id",
@@ -42,7 +43,8 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
-   "options": "Email"
+   "options": "Email",
+   "reqd": 1
   },
   {
    "fieldname": "specialization",
@@ -86,7 +88,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-05 12:45:34.916252",
+ "modified": "2026-03-14 23:06:57.402140",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Technician",
@@ -106,6 +108,20 @@
    "write": 1
   },
   {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "QF Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
    "read": 1,
    "role": "QF Service Staff"
   },
@@ -114,10 +130,19 @@
    "role": "QF Technician"
   },
   {
-   "create": 1,
+   "permlevel": 1,
+   "read": 1,
+   "role": "QF Technician"
+  },
+  {
+   "read": 1,
+   "role": "QF Service Staff"
+  },
+  {
    "delete": 1,
    "email": 1,
    "export": 1,
+   "permlevel": 1,
    "print": 1,
    "read": 1,
    "report": 1,

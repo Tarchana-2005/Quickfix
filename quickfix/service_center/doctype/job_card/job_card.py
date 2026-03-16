@@ -110,6 +110,14 @@ class JobCard(Document):
 			timeout = 600
 		)
 
+		frappe.enqueue(
+        "quickfix.api.send_webhook",
+        job_card_name=self.name,
+        queue="short",
+        timeout=300
+    )
+
+
 	def on_cancel(self):
 		self.status = "Cancelled"
 

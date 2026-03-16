@@ -6,6 +6,11 @@ from frappe.model.document import Document
 
 
 class Technician(Document):
+	def validate(self):
+		if self.email:
+			if frappe.db.exists("User", self.email):
+				frappe.throw("The email is already exist")
+
 	def after_insert(self):
 		self.create_login_user()
 

@@ -471,3 +471,30 @@ For these reasons, allow_guest=True should only be used when absolutely necessar
 
 ---
 
+## Why use `hmac.compare_digest()` instead of `==` for signature comparison? (Timing attack prevention)
+
+When verifying webhook signatures (like payment confirmations), using `==` to compare signatures is unsafe. The `==` operator stops comparing as soon as it finds a mismatch. Because of this, the time taken for comparison changes depending on how many characters match.
+
+Attackers can measure these small time differences and gradually guess the correct signature. This type of vulnerability is called a **timing attack**.
+
+`hmac.compare_digest()` solves this problem by performing a **constant-time comparison**. It compares the entire string without stopping early, so the execution time stays the same regardless of how similar the values are.
+
+Because of this, attackers cannot learn anything from the response time, making the signature verification secure.
+
+
+Therefore, use `hmac.compare_digest()` for comparing cryptographic signatures or hashes to prevent timing attacks and ensure secure webhook validation.
+
+---
+
+## Explain the deduplication strategy: what happens if the payment gateway sends the same event twice?
+
+### Webhook Deduplication Strategy
+
+Payment gateways may send the same webhook event more than once due to retries or network issues.
+
+To avoid processing it twice, the system checks the **Audit Log/database** for an existing record with the same reference. If it already exists, the event is treated as a **duplicate** and skipped.
+
+This ensures the payment is **processed only once** and prevents duplicate updates.
+
+---
+

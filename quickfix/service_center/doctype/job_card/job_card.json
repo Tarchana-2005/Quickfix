@@ -203,7 +203,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-10 12:24:46.437025",
+ "modified": "2026-03-14 21:46:56.579323",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Job Card",
@@ -212,26 +212,6 @@
  "permissions": [
   {
    "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "print": 1,
-   "read": 1,
-   "role": "QF Service Staff",
-   "write": 1
-  },
-  {
-   "permlevel": 1,
    "print": 1,
    "read": 1,
    "role": "QF Service Staff",
@@ -241,12 +221,6 @@
    "read": 1,
    "role": "QF Technician",
    "submit": 1,
-   "write": 1
-  },
-  {
-   "permlevel": 1,
-   "read": 1,
-   "role": "QF Technician",
    "write": 1
   },
   {
@@ -262,6 +236,32 @@
    "role": "QF Manager",
    "share": 1,
    "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "role": "QF Service Staff",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "QF Technician",
    "write": 1
   },
   {
