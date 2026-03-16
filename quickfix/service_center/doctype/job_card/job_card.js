@@ -43,22 +43,29 @@ frappe.ui.form.on("Job Card", {
     setup: function(frm) {
         frm.set_query("assigned_technician", function() {
             return {
-                filters : {
+                filters: {
                     specialization: frm.doc.device_type,
                     status: "Active"
                 }
             }
-        })
+        });
+
+        frm.set_query("part", "parts_used", function() {
+            return {
+                filters: {
+                    "compatible_device_type": frm.doc.device_type,
+                    "is_active": 1
+                }
+            };
+        });
     },
 
-    device_type(frm) {
-
+    device_type: function(frm) {
         if (frm.doc.assigned_technician) {
             frm.set_value("assigned_technician", null);
         }
-
     }
-})
+});
 
 frappe.ui.form.on("Job Card", {
     refresh(frm) {

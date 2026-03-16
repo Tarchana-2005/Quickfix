@@ -2,11 +2,62 @@
 
 {% block page_content %}
 
-<h2>Track Your Repair Job</h2>
+<div class="container" style="max-width: 600px; margin: 50px auto;">
+    
+    <h2>Track Your Repair Job</h2>
+    <p>Enter your phone number to see your repair status</p>
 
-<form>
-    <input type="text" placeholder="Enter Phone Number" />
-    <button type="submit">Check Status</button>
-</form>
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input 
+            type="text" 
+            id="phone-input"
+            placeholder="Enter 10 digit phone number"
+            maxlength="10"
+            style="flex: 1; padding: 8px;"
+        />
+        <button 
+            onclick="trackJob()"
+            style="padding: 8px 16px;">
+            Track Job
+        </button>
+    </div>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+function trackJob() {
+    var phone = document.getElementById("phone-input").value;
+    var resultDiv = document.getElementById("result");
+    
+    resultDiv.innerHTML = "Searching...";
+
+    frappe.call({
+        method: "quickfix.api.get_job_by_phone",
+        args: { phone: phone },
+        callback: function(response) {
+            var data = response.message;
+       
+            if (data.error) {
+                resultDiv.innerHTML = '<p style="color:red;">' + data.error + '</p>';
+                return;
+            }
+          
+            var html = "<h4>Your Repair Jobs:</h4>";
+            data.jobs.forEach(function(job) {
+                html += '<div style="border:1px solid #ddd; padding:10px; margin:10px 0;">';
+                html += '<b>Job ID:</b> ' + job.name + '<br>';
+                html += '<b>Status:</b> ' + job.status + '<br>';
+                html += '<b>Device:</b> ' + job.device_brand + ' ' + job.device_model + '<br>';
+                html += '<b>Priority:</b> ' + job.priority + '<br>';
+                html += '</div>';
+            });
+            
+            resultDiv.innerHTML = html;
+        }
+    });
+}
+</script>
 
 {% endblock %}

@@ -119,8 +119,33 @@ def get_job_by_phone():
         return {"error": "Too many requests. Wait a minute."}
 
     frappe.cache.set_value(cache_key, int(count) + 1, expires_in_sec=60)
-    
-    return {"message": "Request allowed", "call_count": int(count) + 1}
+
+    phone = frappe.form_dict.get("phone", "")
+
+    phone = ''.join(filter(str.isdigit, phone))
+
+    if len(phone) != 10:
+        frappe.response.http_status_code = 400
+        return {"error": "Please enter a valid 10 digit phone number"}
+
+    jobs = frappe.get_list(
+        "Job Card",
+        filters={"customer_phone": phone},
+        fields=[
+            "name",
+            "status",
+            "device_type",
+            "device_brand",
+            "device_model",
+            "priority",
+            "creation"
+        ]
+    )
+
+    if not jobs:
+        return {"error": "No jobs found for this phone number"}
+
+    return {"jobs": jobs}
 
 def send_webhook(job_card_name):
     import requests, json
@@ -194,7 +219,7 @@ def payment_webhook():
         "document_name": data.get("ref"),
         "action": "payment_received",
         "user": "Administrator",
-        "timestamp": frappe.utils.now()
+        "timestamp": frappe.utils.now(),
     }).insert(ignore_permissions=True)
 
     frappe.db.commit()

@@ -42,13 +42,14 @@
   {
    "fieldname": "date",
    "fieldtype": "Date",
-   "label": "Date"
+   "label": "Date",
+   "options": "Today"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-11 11:22:59.409093",
+ "modified": "2026-03-16 17:04:53.595205",
  "modified_by": "Administrator",
  "module": "Service Center",
  "name": "Audit Log",

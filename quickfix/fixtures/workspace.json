@@ -1,7 +1,15 @@
 [
  {
-  "charts": [],
-  "content": "[{\"id\":\"Qh4Hj4NTqj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">QuickFix</span>\",\"col\":12}},{\"id\":\"PwlHz0NVey\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Card\",\"col\":3}},{\"id\":\"drz4XFdEVv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}}]",
+  "charts": [
+   {
+    "chart_name": "Job Status Chart",
+    "label": "Job Status Chart",
+    "parent": "QuickFix",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   }
+  ],
+  "content": "[{\"id\":\"Qh4Hj4NTqj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">QuickFix</span>\",\"col\":12}},{\"id\":\"PwlHz0NVey\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Card\",\"col\":3}},{\"id\":\"drz4XFdEVv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}},{\"id\":\"c15_rWFXZm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Spare Parts\",\"col\":3}},{\"id\":\"kWMU8Yuh-6\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Job Status Chart\",\"col\":12}},{\"id\":\"m1vzKSf3kg\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today's Revenue\",\"col\":4}},{\"id\":\"Ng028-z6Uz\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Open Job Cards\",\"col\":4}}]",
   "custom_blocks": [],
   "docstatus": 0,
   "doctype": "Workspace",
@@ -12,10 +20,25 @@
   "is_hidden": 0,
   "label": "QuickFix",
   "links": [],
-  "modified": "2026-03-04 15:01:03.336206",
+  "modified": "2026-03-16 16:53:41.745704",
   "module": null,
   "name": "QuickFix",
-  "number_cards": [],
+  "number_cards": [
+   {
+    "label": "Today's Revenue",
+    "number_card_name": "Today's Revenue",
+    "parent": "QuickFix",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Open Job Cards",
+    "number_card_name": "Open Job Cards",
+    "parent": "QuickFix",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   }
+  ],
   "parent_page": "",
   "public": 1,
   "quick_lists": [],
@@ -31,6 +54,23 @@
     "kanban_board": null,
     "label": "Job Card",
     "link_to": "Job Card",
+    "parent": "QuickFix",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Spare Parts",
+    "link_to": "Spare Part",
     "parent": "QuickFix",
     "parentfield": "shortcuts",
     "parenttype": "Workspace",

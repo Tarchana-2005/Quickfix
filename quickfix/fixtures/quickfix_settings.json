@@ -5,8 +5,10 @@
   "doctype": "QuickFix Settings",
   "low_stock_alert": 1,
   "manager_email": "tarchana.tech@gmail.com",
-  "modified": "2026-03-03 13:27:28.589024",
+  "modified": "2026-03-12 17:49:34.300584",
   "name": "QuickFix Settings",
-  "shop_name": "QuickFix"
+  "phone": "+91-7868893665",
+  "shop_name": "QuickFix",
+  "webhook_url": "https://webhook.site/932cbf86-e859-46a9-8ade-46f61786c139"
  }
 ]

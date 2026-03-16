@@ -65,13 +65,8 @@ def format_job_id(value):
     return f"JOB#{value}"
 
 def check_low_stock():
-    last_run = frappe.db.get_value(
-        "Audit Log",
-        {"action": "low_stock_check", "date": today()},
-        "name"
-    )
-    if last_run:
-        return  
+    if frappe.db.get_value("Audit Log", {"action": "low_stock_check", "date": today()}, "name"):
+        return
 
     frappe.get_doc({
         "doctype": "Audit Log",
@@ -82,8 +77,33 @@ def check_low_stock():
         "document_name": "daily_check",
         "timestamp": frappe.utils.now()
     }).insert(ignore_permissions=True)
-
     frappe.db.commit()
+
+    low_stock_parts = frappe.db.sql("""
+        SELECT part_name, stock_qty, reorder_level
+        FROM `tabSpare Part`
+        WHERE stock_qty <= reorder_level
+        AND is_active = 1
+    """, as_dict=True)
+
+    if not low_stock_parts:
+        return
+
+    settings = frappe.get_single("QuickFix Settings")
+
+    if not settings.low_stock_alert or not settings.manager_email:
+        return
+
+    message = "Low Stock Parts:\n\n"
+    for part in low_stock_parts:
+        message += f"{part.part_name} — Stock: {part.stock_qty}, Reorder at: {part.reorder_level}\n"
+
+    frappe.sendmail(
+        recipients=[settings.manager_email],
+        subject="QuickFix Low Stock Alert",
+        message=message,
+        now=True
+    )
 
 @frappe.whitelist()
 def deliberately_failing_job():
