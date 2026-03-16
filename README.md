@@ -498,3 +498,65 @@ This ensures the payment is **processed only once** and prevents duplicate updat
 
 ---
 
+## What Python functions/modules are blocked in the Server Script sandbox?
+
+Server Scripts in Frappe run inside a sandboxed environment for security. Because of this, many Python functions and modules are blocked.
+
+**Common blocked modules/functions include:**
+
+- os (system commands, file access)
+- sys
+- subprocess
+- socket
+- shutil
+- eval() and exec()
+- Direct file operations like open()
+
+These are restricted to prevent server access, command execution, or security risks from scripts stored in the database.
+
+---
+
+## List 3 things you CANNOT do in a Server Script that you can do in app code.
+
+1. Access system-level modules
+2. Read or write server files
+3. Import external Python libraries
+
+---
+
+## Give 2 scenarios where Server Scripts are acceptable, and 2 where you should insist on app code instead
+
+### When to Use Server Scripts vs App Code
+
+**When Server Scripts are acceptable:**
+
+1. **Small workflow automation** – For example, automatically changing a Job Card status when a certain field is updated.
+2. **Simple validations or field updates** – Like setting priority to "High" when the repair cost exceeds a certain amount.
+
+**When should use app code instead:**
+
+1. **Complex business logic** – For example, multi-step processes involving several DocTypes or background jobs.
+2. **External integrations** – Such as calling payment APIs, sending webhooks, or using external Python libraries.
+
+Therefore, use Server Scripts for quick, simple customizations, and app code for complex logic, integrations, or production-level features.
+
+---
+## What is the governance/maintainability risk of Server Scripts?
+
+**Governance & Maintainability Risks of Server Scripts**
+
+Server Scripts are stored directly in the **database**, not in the app’s source code. Because of this, they can create governance and maintainability issues.
+
+**Main risks:**
+
+1. **Hard to track in version control** – Since they are not part of the Git repository, changes cannot be easily reviewed or tracked.
+2. **Hidden logic in the system** – Important business logic may exist in the database without developers realizing it.
+3. **Difficult to maintain in teams** – Multiple developers may create or modify scripts without proper documentation, leading to confusion.
+
+---
+
+
+
+
+
+
