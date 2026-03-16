@@ -555,6 +555,9 @@ Server Scripts are stored directly in the **database**, not in the app’s sourc
 
 ---
 
+## Quickfix App flow video
+
+https://drive.google.com/file/d/1nV5US2LmzohPpX5ysiWhfzday4BxBC9_/view?usp=sharing
 
 
 
